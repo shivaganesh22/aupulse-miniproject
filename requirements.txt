@@ -1,9 +1,4 @@
 django
-opencv-python
-numpy
-face_recognition
-tensorflow
-deepface
-pygame
-keyboard
-xlwings
+djangorestframework
+pillow
+psycopg2-binary
