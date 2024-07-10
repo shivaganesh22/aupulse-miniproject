@@ -5,34 +5,61 @@ from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
 from .models import *
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 from datetime import datetime, timedelta
 from .serializers import *
+from django.contrib.auth import authenticate
+from .filters import *
+from django_filters.rest_framework import DjangoFilterBackend
 #Classes
 class BatchView(viewsets.ModelViewSet):
-    queryset=BatchModel.objects.all()
-    serializer_class=BatchSerializer
+    queryset = BatchModel.objects.all()
+    serializer_class = BatchSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BatchFilter
+
 class BranchView(viewsets.ModelViewSet):
-    queryset=BranchModel.objects.all()
-    serializer_class=BranchSerializer
+    queryset = BranchModel.objects.all()
+    serializer_class = BranchSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BranchFilter
+
 class SectionView(viewsets.ModelViewSet):
-    queryset=SectionModel.objects.all()
-    serializer_class=SectionSerializer
+    queryset = SectionModel.objects.all()
+    serializer_class = SectionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = SectionFilter
+
 class SemesterView(viewsets.ModelViewSet):
-    queryset=SemesterModels.objects.all()
-    serializer_class=SemesterSerializer
-#Periods
+    queryset = SemesterModels.objects.all()
+    serializer_class = SemesterSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = SemesterFilter
+
 class TimingView(viewsets.ModelViewSet):
-    queryset=TimingModel.objects.all()
-    serializer_class=TimingSerializer
+    queryset = TimingModel.objects.all()
+    serializer_class = TimingSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TimingFilter
+
 class SubjectView(viewsets.ModelViewSet):
-    queryset=SubjectModel.objects.all()
-    serializer_class=SubjectSerializer
+    queryset = SubjectModel.objects.all()
+    serializer_class = SubjectSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = SubjectFilter
+
 class PeriodView(viewsets.ModelViewSet):
-    queryset=PeriodModel.objects.all()
-    serializer_class=PeriodSerializer
+    queryset = PeriodModel.objects.all()
+    serializer_class = PeriodSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PeriodFilter
+
 class TimetableView(viewsets.ModelViewSet):
     queryset = TimetableModel.objects.all()
     serializer_class = TimetableSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TimetableFilter
 
     def create(self, request, *args, **kwargs):
         add_every_week = request.data.get('add_every_week', False)
@@ -133,3 +160,16 @@ class UpdateFacultyView(APIView):
             return Response(faculty.data, status=status.HTTP_200_OK)
         except FacultyModel.DoesNotExist:
             return Response({'error': 'Faculty not found.'}, status=status.HTTP_404_NOT_FOUND)
+from rest_framework import serializers
+class AdminLoginView(APIView):
+    def post(self,request):
+        serializer=AdminLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user=authenticate(username=serializer.data["username"],password=serializer.data["password"])
+            if user is not None and user.is_superuser:
+                token,created=Token.objects.get_or_create(user=user)
+                return Response({"token":token.key})
+            else :
+                raise serializers.ValidationError({"error":"Invalid Credentials"})
+        else:
+            return  Response({"error":"Enter valid details"}, status=status.HTTP_404_NOT_FOUND)

@@ -112,4 +112,7 @@ class FacultySerializer(serializers.ModelSerializer):
     class Meta:
         model = FacultyModel
         fields ='__all__'
+class AdminLoginSerializer(serializers.Serializer):
+    username=serializers.CharField()
+    password=serializers.CharField()
 

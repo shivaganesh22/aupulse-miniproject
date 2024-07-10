@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ecp4(8kx+9xj7n0fi@ey87_grcecnqwoqwwu#dd4qry+i7(xmj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 import os
 ALLOWED_HOSTS = ['*']
 
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
+    'rest_framework.authtoken',
     'api',
     'app',
 ]
@@ -85,11 +87,11 @@ WSGI_APPLICATION = 'aupulse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'defaultdb',
-        'USER': 'avnadmin',
-        'PASSWORD': 'AVNS_8FwSl7B-NGOW_VP9DPw',
-        'HOST': 'aupulse-rockstarshivaganesh-294c.h.aivencloud.com',  # Set to your PostgreSQL host
-        'PORT': '17367',       # Set to your PostgreSQL port
+        'NAME': 'verceldb',
+        'USER': 'default',
+        'PASSWORD': 'A9bJQkL7MtBe',
+        'HOST': 'ep-late-firefly-a4jjo5dm-pooler.us-east-1.aws.neon.tech',  # Set to your PostgreSQL host
+        'PORT': '5432',       # Set to your PostgreSQL port
     }
 }
 
