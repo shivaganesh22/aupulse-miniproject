@@ -37,6 +37,7 @@ class SubjectFilter(django_filters.FilterSet):
 #         fields = '__all__'
 
 class TimetableFilter(django_filters.FilterSet):
+    subject_semester = django_filters.NumberFilter(field_name='subject__semester')
     class Meta:
         model = TimetableModel
         fields = '__all__'
