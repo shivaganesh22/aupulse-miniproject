@@ -67,6 +67,13 @@ class SubjectSerializer(serializers.ModelSerializer):
 #         model=PeriodModel
 #         fields="__all__"
 class TimetableSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=TimetableModel
+        fields="__all__"
+class TimetableDisplaySerializer(serializers.ModelSerializer):
+    timing=TimingSerializer()
+    subject=SubjectSerializer()
     class Meta:
         model=TimetableModel
         fields="__all__"
