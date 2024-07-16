@@ -8,7 +8,7 @@ router.register('section', SectionView)
 router.register('semester', SemesterView)
 router.register('timing', TimingView)
 router.register('subject', SubjectView)
-router.register('period', PeriodView)
+# router.register('period', PeriodView)
 router.register('timetable', TimetableView)
 
 urlpatterns = [

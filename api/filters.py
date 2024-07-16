@@ -31,10 +31,10 @@ class SubjectFilter(django_filters.FilterSet):
         model = SubjectModel
         fields = '__all__'
 
-class PeriodFilter(django_filters.FilterSet):
-    class Meta:
-        model = PeriodModel
-        fields = '__all__'
+# class PeriodFilter(django_filters.FilterSet):
+#     class Meta:
+#         model = PeriodModel
+#         fields = '__all__'
 
 class TimetableFilter(django_filters.FilterSet):
     class Meta:

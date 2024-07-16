@@ -93,16 +93,17 @@ class SubjectModel(models.Model):
         constraints = [
             UniqueConstraint(fields=['name', 'semester'], name='unique_branch_name_semester')
         ]
-class PeriodModel(models.Model):
-    section=models.ForeignKey(SectionModel,on_delete=models.CASCADE)
-    subject=models.ForeignKey(SubjectModel,on_delete=models.CASCADE)
-    faculty=models.ForeignKey(FacultyModel,on_delete=models.CASCADE)
-    def __str__ (self):
-        return str(self.section)+" *** "+str(self.subject)+' *** '+str(self.faculty)
+# class PeriodModel(models.Model):
+#     section=models.ForeignKey(SectionModel,on_delete=models.CASCADE)
+#     subject=models.ForeignKey(SubjectModel,on_delete=models.CASCADE)
+#     faculty=models.ForeignKey(FacultyModel,on_delete=models.CASCADE)
+#     def __str__ (self):
+#         return str(self.section)+" *** "+str(self.subject)+' *** '+str(self.faculty)
 class TimetableModel(models.Model):
     section=models.ForeignKey(SectionModel,on_delete=models.CASCADE)
     timing=models.ForeignKey(TimingModel,on_delete=models.CASCADE)
-    period=models.ForeignKey(PeriodModel,on_delete=models.CASCADE)
+    subject=models.ForeignKey(SubjectModel,on_delete=models.CASCADE)
+    faculty=models.ForeignKey(FacultyModel,on_delete=models.CASCADE)
     date=models.DateField()
     def __str__(self):
-        return str(self.section)+" *** "+str(self.timing)+' *** '+str(self.period)
+        return str(self.section)+" *** "+str(self.timing)+' *** '+str(self.subject)

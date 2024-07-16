@@ -49,11 +49,11 @@ class SubjectView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = SubjectFilter
 
-class PeriodView(viewsets.ModelViewSet):
-    queryset = PeriodModel.objects.all()
-    serializer_class = PeriodSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = PeriodFilter
+# class PeriodView(viewsets.ModelViewSet):
+#     queryset = PeriodModel.objects.all()
+#     serializer_class = PeriodSerializer
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_class = PeriodFilter
 
 class TimetableView(viewsets.ModelViewSet):
     queryset = TimetableModel.objects.all()

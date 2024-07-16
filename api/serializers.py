@@ -62,10 +62,10 @@ class SubjectSerializer(serializers.ModelSerializer):
     def validate_name(self, value):
         upper_value = value.title()
         return upper_value
-class PeriodSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=PeriodModel
-        fields="__all__"
+# class PeriodSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model=PeriodModel
+#         fields="__all__"
 class TimetableSerializer(serializers.ModelSerializer):
     class Meta:
         model=TimetableModel

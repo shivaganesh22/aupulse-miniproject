@@ -12,6 +12,6 @@ admin.site.register(FacultyModel)
 
 admin.site.register(TimingModel)
 admin.site.register(SubjectModel)
-admin.site.register(PeriodModel)
+# admin.site.register(PeriodModel)
 admin.site.register(TimetableModel)
 
