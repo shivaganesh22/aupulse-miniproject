@@ -111,6 +111,9 @@ class CreateStudentView(APIView):
 
         else:
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self,request):
+        serializer=StudentSerializer(StudentModel.objects.all(),many=True)
+        return Response(serializer.data)
 class UpdateStudentView(APIView):
     def post(self, request, id):
         try:
@@ -146,6 +149,9 @@ class CreateFacultyView(APIView):
 
         else:
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self,request):
+        serializer=FacultySerializer(FacultyModel.objects.all(),many=True)
+        return Response(serializer.data)
 class UpdateFacultyView(APIView):
     def post(self, request, id):
         try:
