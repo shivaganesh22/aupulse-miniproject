@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ecp4(8kx+9xj7n0fi@ey87_grcecnqwoqwwu#dd4qry+i7(xmj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 import os
 ALLOWED_HOSTS = ['*']
 
@@ -42,7 +42,14 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'api',
     'app',
+    'cloudinary_storage',
+    'cloudinary',
 ]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dvfp1kgxz',
+    'API_KEY': '722253645369222',
+    'API_SECRET': 'lXqubfBWvgM3AmOX4s7ZZ4gNJXo'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -142,6 +149,7 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # STATIC_ROOT=os.path.join(BASE_DIR,"static")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

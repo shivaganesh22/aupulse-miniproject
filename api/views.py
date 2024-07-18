@@ -96,6 +96,8 @@ class TimetableView(viewsets.ModelViewSet):
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
 class CreateStudentView(APIView):
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = StudentFilter
     def post(self, request):
         user_serializer=UserSerializer(data=request.data)
         if user_serializer.is_valid():
@@ -145,6 +147,8 @@ class UpdateStudentView(APIView):
             return Response({'error': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
     
 class CreateFacultyView(APIView):
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = FacultyFilter
     def post(self, request):
         user_serializer=UserSerializer(data=request.data)
         if user_serializer.is_valid():

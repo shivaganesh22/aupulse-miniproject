@@ -3,3 +3,4 @@ djangorestframework
 pillow
 psycopg2-binary
 django-filter
+django-cloudinary-storage

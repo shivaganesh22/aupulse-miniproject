@@ -30,6 +30,14 @@ class SubjectFilter(django_filters.FilterSet):
     class Meta:
         model = SubjectModel
         fields = '__all__'
+class StudentFilter(django_filters.FilterSet):
+    class Meta:
+        model = SubjectModel
+        fields = '__all__'
+class FacultyFilter(django_filters.FilterSet):
+    class Meta:
+        model = SubjectModel
+        fields = '__all__'
 
 # class PeriodFilter(django_filters.FilterSet):
 #     class Meta:
