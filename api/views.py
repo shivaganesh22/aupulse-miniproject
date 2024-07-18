@@ -133,6 +133,16 @@ class UpdateStudentView(APIView):
             return Response(student.data, status=status.HTTP_200_OK)
         except StudentModel.DoesNotExist:
             return Response({'error': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+    def delete(self, request, id):
+        try:
+            std=StudentModel.objects.get(id=id)
+            user = User.objects.get(id=std.user)
+            user.delete()
+            return Response({"msg":"Deleted"}, status=status.HTTP_200_OK)
+        except StudentModel.DoesNotExist:
+            return Response({'error': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
 class CreateFacultyView(APIView):
     def post(self, request):
         user_serializer=UserSerializer(data=request.data)
@@ -170,6 +180,14 @@ class UpdateFacultyView(APIView):
             faculty = FacultySerializer(FacultyModel.objects.get(id=id))
             return Response(faculty.data, status=status.HTTP_200_OK)
         except FacultyModel.DoesNotExist:
+            return Response({'error': 'Faculty not found.'}, status=status.HTTP_404_NOT_FOUND)
+    def delete(self, request, id):
+        try:
+            std=FacultyModel.objects.get(id=id)
+            user = User.objects.get(id=std.user)
+            user.delete()
+            return Response({"msg":"Deleted"}, status=status.HTTP_200_OK)
+        except StudentModel.DoesNotExist:
             return Response({'error': 'Faculty not found.'}, status=status.HTTP_404_NOT_FOUND)
 from rest_framework import serializers
 class AdminLoginView(APIView):

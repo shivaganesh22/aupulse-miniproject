@@ -70,7 +70,8 @@ class FacultyModel(models.Model):
     last_name=models.CharField(max_length=100)
     profile=models.ImageField(upload_to='profiles/faculty',null=True)
     phone_number=models.CharField(max_length=10)
-    email=models.EmailField(null=True)
+    email=models.EmailField()
+    department=models.CharField(max_length=50)
     status=models.BooleanField(default=True)
     def __str__(self):
         return self.user.username+" *** "+self.user.email
