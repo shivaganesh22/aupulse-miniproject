@@ -35,17 +35,17 @@ class SectionModel(models.Model):
         ]
 
 class SemesterModels(models.Model):
-    branch = models.ForeignKey(BranchModel, on_delete=models.CASCADE)
+    batch = models.ForeignKey(BatchModel, on_delete=models.CASCADE)
     year = models.IntegerField()
     semester = models.IntegerField()
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.branch} ----- {self.year} - {self.semester}"
+        return f"{self.batch} ----- {self.year} - {self.semester}"
 
     class Meta:
         constraints = [
-            UniqueConstraint(fields=['branch', 'year', 'semester'], name='unique_batch_year_semester')
+            UniqueConstraint(fields=['batch', 'year', 'semester'], name='unique_batch_year_semester')
         ]
 class StudentModel(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
