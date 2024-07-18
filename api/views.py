@@ -107,6 +107,7 @@ class CreateStudentView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
+                user.delete()
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         else:
@@ -137,7 +138,7 @@ class UpdateStudentView(APIView):
     def delete(self, request, id):
         try:
             std=StudentModel.objects.get(id=id)
-            user = User.objects.get(id=std.user)
+            user = User.objects.get(id=std.user.id)
             user.delete()
             return Response({"msg":"Deleted"}, status=status.HTTP_200_OK)
         except StudentModel.DoesNotExist:
@@ -158,6 +159,7 @@ class CreateFacultyView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         else:
+            user.delete()
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def get(self,request):
         serializer=FacultySerializer(FacultyModel.objects.all(),many=True)
@@ -184,7 +186,7 @@ class UpdateFacultyView(APIView):
     def delete(self, request, id):
         try:
             std=FacultyModel.objects.get(id=id)
-            user = User.objects.get(id=std.user)
+            user = User.objects.get(id=std.user.id)
             user.delete()
             return Response({"msg":"Deleted"}, status=status.HTTP_200_OK)
         except StudentModel.DoesNotExist:
