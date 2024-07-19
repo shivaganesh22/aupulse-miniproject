@@ -30,14 +30,18 @@ class SubjectFilter(django_filters.FilterSet):
     class Meta:
         model = SubjectModel
         fields = '__all__'
+class ImageFieldFilter(django_filters.BaseInFilter, django_filters.CharFilter):
+    pass
 class StudentFilter(django_filters.FilterSet):
+    profile = ImageFieldFilter(field_name='profile', lookup_expr='exact')
     class Meta:
-        model = SubjectModel
-        fields = '__all__'
+        model = StudentModel
+        fields ='__all__'
 class FacultyFilter(django_filters.FilterSet):
+    profile = ImageFieldFilter(field_name='profile', lookup_expr='exact')
     class Meta:
-        model = SubjectModel
-        fields = '__all__'
+        model = FacultyModel
+        fields ='__all__'
 
 # class PeriodFilter(django_filters.FilterSet):
 #     class Meta:

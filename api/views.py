@@ -12,6 +12,8 @@ from .serializers import *
 from django.contrib.auth import authenticate
 from .filters import *
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
 #Classes
 class BatchView(viewsets.ModelViewSet):
     queryset = BatchModel.objects.all()
@@ -95,13 +97,16 @@ class TimetableView(viewsets.ModelViewSet):
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
-class CreateStudentView(APIView):
+class CreateStudentView(GenericAPIView, ListModelMixin):
     filter_backends = [DjangoFilterBackend]
     filterset_class = StudentFilter
+    queryset = StudentModel.objects.all()
+    serializer_class = StudentSerializer
+
     def post(self, request):
-        user_serializer=UserSerializer(data=request.data)
+        user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
-            user=user_serializer.save()
+            user = user_serializer.save()
             student_data = request.data.copy()  
             student_data['user'] = user.id
             serializer = StudentSerializer(data=student_data)
@@ -111,12 +116,11 @@ class CreateStudentView(APIView):
             else:
                 user.delete()
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         else:
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def get(self,request):
-        serializer=StudentSerializer(StudentModel.objects.all(),many=True)
-        return Response(serializer.data)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 class UpdateStudentView(APIView):
     def post(self, request, id):
         try:
@@ -146,28 +150,30 @@ class UpdateStudentView(APIView):
         except StudentModel.DoesNotExist:
             return Response({'error': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
     
-class CreateFacultyView(APIView):
+class CreateFacultyView(GenericAPIView, ListModelMixin):
     filter_backends = [DjangoFilterBackend]
     filterset_class = FacultyFilter
+    queryset = FacultyModel.objects.all()
+    serializer_class = FacultySerializer
+
     def post(self, request):
-        user_serializer=UserSerializer(data=request.data)
+        user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
-            user=user_serializer.save()
-            student_data = request.data.copy()  
-            student_data['user'] = user.id
-            serializer = FacultySerializer(data=student_data)
+            user = user_serializer.save()
+            faculty_data = request.data.copy()
+            faculty_data['user'] = user.id
+            serializer = FacultySerializer(data=faculty_data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
+                user.delete()
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
         else:
-            user.delete()
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def get(self,request):
-        serializer=FacultySerializer(FacultyModel.objects.all(),many=True)
-        return Response(serializer.data)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 class UpdateFacultyView(APIView):
     def post(self, request, id):
         try:
