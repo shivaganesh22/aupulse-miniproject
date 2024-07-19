@@ -200,7 +200,7 @@ class AdminLoginView(APIView):
     def post(self,request):
         serializer=AdminLoginSerializer(data=request.data)
         if serializer.is_valid():
-            user=authenticate(username=serializer.data["username"],password=serializer.data["password"])
+            user=authenticate(username=serializer.data["username"].upper(),password=serializer.data["password"])
             if user is not None and user.is_superuser:
                 token,created=Token.objects.get_or_create(user=user)
                 return Response({"token":token.key})
@@ -208,3 +208,31 @@ class AdminLoginView(APIView):
                 raise serializers.ValidationError({"error":"Invalid Credentials"})
         else:
             return  Response({"error":"Enter valid details"}, status=status.HTTP_404_NOT_FOUND)
+import uuid
+from django.core.mail import send_mail
+def sendMail(subject,message,email):
+    send_mail(subject,message,'aupulse@gmail.com',email)
+class ForgotPasswordView(APIView):
+    def post(self,request):
+        serializer=ForgotPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user=User.objects.get(username=serializer.data["username"].upper())
+                token=uuid.uuid4()
+                PasswordChange.objects.filter(user=user).delete()
+                sendMail("Password Reset",f"Dear {user.username} click below link to reset password\nhttps://aupulse-api.vercel.app/resetpassword/?token={token}",[user.email])
+                PasswordChange(user=user,token=token).save()
+                return Response({"msg":"Mail sent"},status=status.HTTP_200_OK)
+            except:
+                Response({"error":"No user exists with username"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return  Response({"error":"Enter valid details"}, status=status.HTTP_404_NOT_FOUND)
+class ChangePasswordView(APIView):
+    authentication_classes=[TokenAuthentication]
+    def get(self,r):
+        user=r.auth.user
+        token=uuid.uuid4()
+        PasswordChange.objects.filter(user=user).delete()
+        sendMail("Password Reset",f"Dear {user.username} click below link to reset password\nhttps://aupulse-api.vercel.app/resetpassword/?token={token}",[user.email])
+        PasswordChange(user=user,token=token).save()
+        return Response({"msg":"Mail sent"},status=status.HTTP_200_OK)

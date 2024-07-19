@@ -22,6 +22,7 @@ from  app.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include("api.urls")),
+    path('resetpassword/',password_reset),
 re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 ]

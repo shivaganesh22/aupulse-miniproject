@@ -108,3 +108,9 @@ class TimetableModel(models.Model):
     date=models.DateField()
     def __str__(self):
         return str(self.section)+" *** "+str(self.timing)+' *** '+str(self.subject)
+class PasswordChange(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    token=models.CharField(max_length=100)
+    date_added = models.DateTimeField(auto_now_add=True)
+    def __str__(self) :
+        return str(self.user)+ "  "+self.token

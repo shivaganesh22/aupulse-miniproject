@@ -123,3 +123,6 @@ class AdminLoginSerializer(serializers.Serializer):
     username=serializers.CharField()
     password=serializers.CharField()
 
+class ForgotPasswordSerializer(serializers.Serializer):
+    username=serializers.CharField()
+

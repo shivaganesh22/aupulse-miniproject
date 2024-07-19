@@ -19,4 +19,6 @@ urlpatterns = [
     path('faculty/',CreateFacultyView.as_view()),
     path('faculty/<int:id>/',UpdateFacultyView.as_view()),
     path('login/admin/',AdminLoginView.as_view()),
+    path('password/change/',ChangePasswordView.as_view()),
+    path('password/reset/',ForgotPasswordView.as_view()),
 ]
