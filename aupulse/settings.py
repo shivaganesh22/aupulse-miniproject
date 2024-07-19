@@ -39,12 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+     "corsheaders",
     'rest_framework.authtoken',
     'api',
     'app',
     'cloudinary_storage',
     'cloudinary',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dvfp1kgxz',
     'API_KEY': '722253645369222',
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
