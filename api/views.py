@@ -224,7 +224,7 @@ class ForgotPasswordView(APIView):
                 PasswordChange(user=user,token=token).save()
                 return Response({"msg":"Mail sent"},status=status.HTTP_200_OK)
             except:
-                Response({"error":"No user exists with username"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error":"No user exists with username"}, status=status.HTTP_404_NOT_FOUND)
         else:
             return  Response({"error":"Enter valid details"}, status=status.HTTP_404_NOT_FOUND)
 class ChangePasswordView(APIView):
