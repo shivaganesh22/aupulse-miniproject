@@ -263,12 +263,12 @@ class AttendanceView(ListCreateAPIView):
             serializer = AttendanceSerializer(data=data)
         if serializer.is_valid():
             saved_records=serializer.save()
-            # if not isinstance(saved_records, list):
-            #     saved_records = [saved_records]
-            # periods = set(record.period for record in saved_records)
-            # for period in periods:
-            #     period.status = True
-            #     period.save()
+            if not isinstance(saved_records, list):
+                saved_records = [saved_records]
+            periods = set(record.period for record in saved_records)
+            for period in periods:
+                period.status = True
+                period.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self, request, *args, **kwargs):

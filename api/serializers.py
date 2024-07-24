@@ -134,7 +134,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
     def validate(self, data):
         period = data.get('period')
         if self.instance is None:
-            if AttendanceModel.objects.filter(period=period).exists():
+            if period.status:
                 raise serializers.ValidationError("Attendance already taken for this period.")
         if period.date > date.today():
             raise serializers.ValidationError("Period date cannot be in the future.")
