@@ -87,6 +87,7 @@ class TimingModel(models.Model):
 class SubjectModel(models.Model):
     semester=models.ForeignKey(SemesterModels,on_delete=models.CASCADE)
     name=models.CharField(max_length=100)
+    branch=models.ForeignKey(BranchModel,on_delete=models.CASCADE)
     is_lab=models.BooleanField(default=False)
     def __str__(self):
         return str (self.semester)+" **** "+str(self.name)
