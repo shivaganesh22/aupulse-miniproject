@@ -61,6 +61,11 @@ class TimetableDisplay(viewsets.ModelViewSet):
     serializer_class = TimetableDisplaySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = TimetableFilter
+class AttendanceDisplay(viewsets.ModelViewSet):
+    queryset = AttendanceModel.objects.all()
+    serializer_class = AttendanceDisplaySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AttendanceFilter
     
 class TimetableView(viewsets.ModelViewSet):
     queryset = TimetableModel.objects.all()

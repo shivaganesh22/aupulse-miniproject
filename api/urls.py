@@ -11,6 +11,7 @@ router.register('subject', SubjectView)
 # router.register('period', PeriodView)
 router.register('timetable', TimetableView)
 router.register('timetabledisplay', TimetableDisplay,basename='timetabledisplay')
+router.register('attendancedisplay', AttendanceDisplay,basename='attendancedisplay')
 
 urlpatterns = [
     path('', include(router.urls)),

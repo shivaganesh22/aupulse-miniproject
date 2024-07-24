@@ -79,6 +79,7 @@ class TimetableDisplaySerializer(serializers.ModelSerializer):
         fields="__all__"
 
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -138,3 +139,9 @@ class AttendanceSerializer(serializers.ModelSerializer):
         if period.date > date.today():
             raise serializers.ValidationError("Period date cannot be in the future.")
         return data
+class AttendanceDisplaySerializer(serializers.ModelSerializer):
+    student=StudentSerializer()
+    period=TimetableSerializer()
+    class Meta:
+        model=AttendanceModel
+        fields="__all__"
