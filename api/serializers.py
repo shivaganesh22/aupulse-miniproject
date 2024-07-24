@@ -125,4 +125,16 @@ class AdminLoginSerializer(serializers.Serializer):
 
 class ForgotPasswordSerializer(serializers.Serializer):
     username=serializers.CharField()
-
+from datetime import date
+class AttendanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AttendanceModel
+        fields = '__all__'
+    def validate(self, data):
+        period = data.get('period')
+        if self.instance is None:
+            if AttendanceModel.objects.filter(period=period).exists():
+                raise serializers.ValidationError("Attendance already taken for this period.")
+        if period.date > date.today():
+            raise serializers.ValidationError("Period date cannot be in the future.")
+        return data

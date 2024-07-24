@@ -105,6 +105,7 @@ class TimetableModel(models.Model):
     timing=models.ForeignKey(TimingModel,on_delete=models.CASCADE)
     subject=models.ForeignKey(SubjectModel,on_delete=models.CASCADE)
     faculty=models.ForeignKey(FacultyModel,on_delete=models.CASCADE)
+    status=models.BooleanField(default=False)
     date=models.DateField()
     def __str__(self):
         return str(self.section)+" *** "+str(self.timing)+' *** '+str(self.subject)
@@ -114,3 +115,9 @@ class PasswordChange(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     def __str__(self) :
         return str(self.user)+ "  "+self.token
+class AttendanceModel(models.Model):
+    student=models.ForeignKey(StudentModel,on_delete=models.CASCADE)
+    period=models.ForeignKey(TimetableModel,on_delete=models.CASCADE)
+    status=models.BooleanField(default=False)
+    def __str__(self) :
+        return str(self.student)+ "  "+str(self.period)+" "+str(self.status)

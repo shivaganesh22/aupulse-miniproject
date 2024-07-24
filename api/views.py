@@ -12,7 +12,7 @@ from .serializers import *
 from django.contrib.auth import authenticate
 from .filters import *
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView,ListCreateAPIView
 from rest_framework.mixins import ListModelMixin
 #Classes
 class BatchView(viewsets.ModelViewSet):
@@ -242,3 +242,53 @@ class ChangePasswordView(APIView):
         sendMail("Password Reset",f"Dear {user.username} click below link to reset password\nhttps://aupulse-api.vercel.app/resetpassword/?token={token}",[user.email])
         PasswordChange(user=user,token=token).save()
         return Response({"msg":"Mail sent"},status=status.HTTP_200_OK)
+
+
+class AttendanceView(ListCreateAPIView):
+    queryset = AttendanceModel.objects.all()
+    serializer_class = AttendanceSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AttendanceFilter
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        if isinstance(data, list):
+            serializer = AttendanceSerializer(data=data, many=True)
+        else:
+            serializer = AttendanceSerializer(data=data)
+        if serializer.is_valid():
+            saved_records=serializer.save()
+            # if not isinstance(saved_records, list):
+            #     saved_records = [saved_records]
+            # periods = set(record.period for record in saved_records)
+            # for period in periods:
+            #     period.status = True
+            #     period.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, *args, **kwargs):
+        data = request.data
+        if isinstance(data, list):
+            updated_instances = []
+            for attendance_data in data:
+                try:
+                    attendance_instance = AttendanceModel.objects.get(id=attendance_data["id"])
+                    serializer = AttendanceSerializer(attendance_instance, data=attendance_data,partial=True)
+                    if serializer.is_valid():
+                        serializer.save()
+                    else:
+                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                except AttendanceModel.DoesNotExist:
+                    return Response({"error": ["Attendance record not found for student and period."]}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"status": True}, status=status.HTTP_200_OK)
+        else:
+            try:
+                attendance_instance = AttendanceModel.objects.get(id=data["id"])
+                serializer = AttendanceSerializer(attendance_instance, data=data,partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"status": True}, status=status.HTTP_200_OK)
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            except AttendanceModel.DoesNotExist:
+                return Response({"error": ["Attendance record not found for student and period."]}, status=status.HTTP_404_NOT_FOUND)

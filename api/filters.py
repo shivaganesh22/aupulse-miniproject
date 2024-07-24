@@ -42,6 +42,11 @@ class FacultyFilter(django_filters.FilterSet):
     class Meta:
         model = FacultyModel
         fields ='__all__'
+class AttendanceFilter(django_filters.FilterSet):
+    section = django_filters.NumberFilter(field_name='student__section')
+    class Meta:
+        model = AttendanceModel
+        fields ='__all__'
 
 # class PeriodFilter(django_filters.FilterSet):
 #     class Meta:

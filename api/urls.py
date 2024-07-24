@@ -21,4 +21,5 @@ urlpatterns = [
     path('login/admin/',AdminLoginView.as_view()),
     path('password/change/',ChangePasswordView.as_view()),
     path('password/reset/',ForgotPasswordView.as_view()),
+    path('attendance/',AttendanceView.as_view()),
 ]
