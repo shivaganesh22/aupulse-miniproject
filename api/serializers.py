@@ -71,12 +71,7 @@ class TimetableSerializer(serializers.ModelSerializer):
     class Meta:
         model=TimetableModel
         fields="__all__"
-class TimetableDisplaySerializer(serializers.ModelSerializer):
-    timing=TimingSerializer()
-    subject=SubjectSerializer()
-    class Meta:
-        model=TimetableModel
-        fields="__all__"
+
 
 
 
@@ -120,6 +115,13 @@ class FacultySerializer(serializers.ModelSerializer):
     class Meta:
         model = FacultyModel
         fields ='__all__'
+class TimetableDisplaySerializer(serializers.ModelSerializer):
+    timing=TimingSerializer()
+    subject=SubjectSerializer()
+    faculty=FacultySerializer()
+    class Meta:
+        model=TimetableModel
+        fields="__all__"
 class AdminLoginSerializer(serializers.Serializer):
     username=serializers.CharField()
     password=serializers.CharField()
@@ -141,7 +143,8 @@ class AttendanceSerializer(serializers.ModelSerializer):
         return data
 class AttendanceDisplaySerializer(serializers.ModelSerializer):
     student=StudentSerializer()
-    period=TimetableSerializer()
+    period=TimetableDisplaySerializer()
+   
     class Meta:
         model=AttendanceModel
         fields="__all__"
