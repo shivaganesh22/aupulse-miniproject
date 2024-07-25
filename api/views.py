@@ -28,7 +28,7 @@ class BranchView(viewsets.ModelViewSet):
     filterset_class = BranchFilter
 
 class SectionView(viewsets.ModelViewSet):
-    queryset = SectionModel.objects.all()
+    queryset = SectionModel.objects.order_by('name')
     serializer_class = SectionSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = SectionFilter
@@ -40,7 +40,7 @@ class SemesterView(viewsets.ModelViewSet):
     filterset_class = SemesterFilter
 
 class TimingView(viewsets.ModelViewSet):
-    queryset = TimingModel.objects.all()
+    queryset = TimingModel.objects.order_by('name')
     serializer_class = TimingSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = TimingFilter
@@ -57,15 +57,11 @@ class SubjectView(viewsets.ModelViewSet):
 #     filter_backends = [DjangoFilterBackend]
 #     filterset_class = PeriodFilter
 class TimetableDisplay(viewsets.ModelViewSet):
-    queryset = TimetableModel.objects.all()
+    queryset = TimetableModel.objects.order_by('timing__name')
     serializer_class = TimetableDisplaySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = TimetableFilter
-class AttendanceDisplay(viewsets.ModelViewSet):
-    queryset = AttendanceModel.objects.all()
-    serializer_class = AttendanceDisplaySerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = AttendanceFilter
+
     
 class TimetableView(viewsets.ModelViewSet):
     queryset = TimetableModel.objects.all()
@@ -105,7 +101,7 @@ class TimetableView(viewsets.ModelViewSet):
 class CreateStudentView(GenericAPIView, ListModelMixin):
     filter_backends = [DjangoFilterBackend]
     filterset_class = StudentFilter
-    queryset = StudentModel.objects.all()
+    queryset = StudentModel.objects.order_by('hall_ticket')
     serializer_class = StudentSerializer
 
     def post(self, request):
@@ -297,3 +293,8 @@ class AttendanceView(ListCreateAPIView):
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except AttendanceModel.DoesNotExist:
                 return Response({"error": ["Attendance record not found for student and period."]}, status=status.HTTP_404_NOT_FOUND)
+class AttendanceDisplay(viewsets.ModelViewSet):
+    queryset = AttendanceModel.objects.order_by('student__hall_ticket')
+    serializer_class = AttendanceDisplaySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = AttendanceFilter

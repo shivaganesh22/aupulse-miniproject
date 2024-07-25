@@ -122,3 +122,7 @@ class AttendanceModel(models.Model):
     status=models.BooleanField(default=False)
     def __str__(self) :
         return str(self.student)+ "  "+str(self.period)+" "+str(self.status)
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['student', 'period'], name='unique_period_student')
+        ]

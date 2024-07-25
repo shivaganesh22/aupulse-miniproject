@@ -43,7 +43,7 @@ class FacultyFilter(django_filters.FilterSet):
         model = FacultyModel
         fields ='__all__'
 class AttendanceFilter(django_filters.FilterSet):
-    status = django_filters.NumberFilter(field_name='student__status')
+    student_status = django_filters.NumberFilter(field_name='student__status')
     class Meta:
         model = AttendanceModel
         fields ='__all__'
