@@ -141,6 +141,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
         return data
 class AttendanceDisplaySerializer(serializers.ModelSerializer):
     student=StudentSerializer()
+    period=TimetableSerializer()
     class Meta:
         model=AttendanceModel
         fields="__all__"
