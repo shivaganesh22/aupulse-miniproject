@@ -77,7 +77,7 @@ class FacultyModel(models.Model):
     def __str__(self):
         return self.user.username+" *** "+self.user.email
 class TimingModel(models.Model):
-    name=models.CharField(max_length=10,unique=True)
+    name=models.CharField(max_length=10)
     batch=models.ForeignKey(BatchModel,on_delete=models.CASCADE)
     start=models.TimeField()
     end=models.TimeField()
