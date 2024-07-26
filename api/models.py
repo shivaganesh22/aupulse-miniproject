@@ -9,7 +9,8 @@ class BatchModel(models.Model):
 
     def __str__(self):
         return f"{self.start} - {self.end}"
-
+    class Meta:
+        unique_together = ('start', 'end')
 class BranchModel(models.Model):
     batch = models.ForeignKey(BatchModel, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -110,6 +111,10 @@ class TimetableModel(models.Model):
     date=models.DateField()
     def __str__(self):
         return str(self.section)+" *** "+str(self.timing)+' *** '+str(self.subject)
+    class Meta:
+        constraints = [
+            UniqueConstraint(fields=['timing', 'section','date'], name='unique_timing_date_period')
+        ]
 class PasswordChange(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     token=models.CharField(max_length=100)

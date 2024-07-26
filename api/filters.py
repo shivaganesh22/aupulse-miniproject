@@ -42,8 +42,10 @@ class FacultyFilter(django_filters.FilterSet):
     class Meta:
         model = FacultyModel
         fields ='__all__'
+from django_filters import DateFromToRangeFilter
 class AttendanceFilter(django_filters.FilterSet):
     student_status = django_filters.NumberFilter(field_name='student__status')
+    date = DateFromToRangeFilter(field_name='period__date')
     class Meta:
         model = AttendanceModel
         fields ='__all__'

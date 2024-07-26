@@ -5,6 +5,11 @@ class BatchSerializer(serializers.ModelSerializer):
     class Meta:
         model=BatchModel
         fields="__all__"
+    def validate(self, data):
+        # Check if start time is before end time
+        if data['start'] >= data['end']:
+            raise serializers.ValidationError("Start date must be before end date.")
+        return data
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
         model=BranchModel
