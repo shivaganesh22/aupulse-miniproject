@@ -78,12 +78,16 @@ class FacultyModel(models.Model):
         return self.user.username+" *** "+self.user.email
 class TimingModel(models.Model):
     name=models.CharField(max_length=10,unique=True)
+    batch=models.ForeignKey(BatchModel,on_delete=models.CASCADE)
     start=models.TimeField()
     end=models.TimeField()
     def __str__(self):
         return self.name+"  "+str(self.start)+'-'+str(self.end)
     class Meta:
-        unique_together = ('start', 'end')
+        constraints = [
+            UniqueConstraint(fields=['name', 'batch'], name='unique_name_per_batch'),
+            UniqueConstraint(fields=['start', 'end', 'batch'], name='unique_time_slot_per_batch')
+        ]
 
 class SubjectModel(models.Model):
     semester=models.ForeignKey(SemesterModels,on_delete=models.CASCADE)

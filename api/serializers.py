@@ -35,29 +35,29 @@ class TimingSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimingModel
         fields = "__all__"
-
-    def validate_name(self, value):
-        upper_value = value.title()
-        if self.instance:
-            # If updating, exclude the current instance from the duplicate check
-            if TimingModel.objects.exclude(pk=self.instance.pk).filter(name=upper_value).exists():
-                raise serializers.ValidationError("Period already exists")
-        else:
-            if TimingModel.objects.filter(name=upper_value).exists():
-                raise serializers.ValidationError("Period already exists")
-        return upper_value
-
-
+    def validate_name(self,value):
+        return value.title()
     def validate(self, data):
         # Check if start time is before end time
         if data['start'] >= data['end']:
             raise serializers.ValidationError("Start time must be before end time.")
 
-        # Check for overlapping periods
+        # Check for unique name within the same batch
+        name = data.get('name')
+        batch = data.get('batch')
+        # if self.instance:
+        #     # If updating, exclude the current instance from the duplicate check
+        #     if TimingModel.objects.exclude(pk=self.instance.pk).filter(name=name, batch=batch).exists():
+        #         raise serializers.ValidationError("Period name already exists for this batch.")
+        # else:
+        #     if TimingModel.objects.filter(name=name, batch=batch).exists():
+        #         raise serializers.ValidationError("Period name already exists for this batch.")
+
+        # Check for overlapping periods within the same batch
         if TimingModel.objects.exclude(pk=self.instance.pk if self.instance else None).filter(
-                start__lt=data['end'], end__gt=data['start']).exists():
-            raise serializers.ValidationError("This time period overlaps with an existing period.")
-        
+                batch=batch, start__lt=data['end'], end__gt=data['start']).exists():
+            raise serializers.ValidationError("This time period overlaps with an existing period for this batch.")
+
         return data
     
 class SubjectSerializer(serializers.ModelSerializer):
