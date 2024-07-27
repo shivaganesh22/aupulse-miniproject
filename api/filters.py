@@ -58,6 +58,7 @@ class AttendanceFilter(django_filters.FilterSet):
 
 class TimetableFilter(django_filters.FilterSet):
     subject_semester = django_filters.NumberFilter(field_name='subject__semester')
+    date_range = django_filters.DateFromToRangeFilter(field_name='date')
     class Meta:
         model = TimetableModel
         fields = '__all__'

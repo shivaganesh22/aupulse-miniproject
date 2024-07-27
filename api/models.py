@@ -117,7 +117,7 @@ class TimetableModel(models.Model):
         return str(self.section)+" *** "+str(self.timing)+' *** '+str(self.subject)
     class Meta:
         constraints = [
-            UniqueConstraint(fields=['timing', 'section','date'], name='unique_timing_date_period')
+            UniqueConstraint(fields=['timing', 'section','date','subject'], name='unique_timing_date_period')
         ]
 class PasswordChange(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
