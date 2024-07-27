@@ -47,6 +47,7 @@ class AttendanceFilter(django_filters.FilterSet):
     date_range = django_filters.DateFromToRangeFilter(field_name='period__date')
     date = django_filters.DateFilter(field_name='period__date')
     section = django_filters.NumberFilter(field_name='period__section')
+    semester = django_filters.NumberFilter(field_name='period__subject__semester')
     class Meta:
         model = AttendanceModel
         fields ='__all__'
