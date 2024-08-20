@@ -39,19 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
-     "corsheaders",
+    "corsheaders",
     'rest_framework.authtoken',
     'api',
     'app',
-    'cloudinary_storage',
     'cloudinary',
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dvfp1kgxz',
-    'API_KEY': '722253645369222',
-    'API_SECRET': 'lXqubfBWvgM3AmOX4s7ZZ4gNJXo'
+CLOUDINARY = {
+    'cloud_name': 'dvfp1kgxz',
+    'api_key': '722253645369222',
+    'api_secret': 'lXqubfBWvgM3AmOX4s7ZZ4gNJXo'
 }
 
 MIDDLEWARE = [
@@ -153,7 +152,7 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # STATIC_ROOT=os.path.join(BASE_DIR,"static")
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

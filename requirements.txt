@@ -5,3 +5,4 @@ psycopg2-binary
 django-filter
 django-cloudinary-storage
 django-cors-headers
+cloudinary

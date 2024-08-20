@@ -48,6 +48,7 @@ class SemesterModels(models.Model):
         constraints = [
             UniqueConstraint(fields=['batch', 'year', 'semester'], name='unique_batch_year_semester')
         ]
+from cloudinary.models import CloudinaryField
 class StudentModel(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     section=models.ForeignKey(SectionModel,on_delete=models.CASCADE)
@@ -57,7 +58,8 @@ class StudentModel(models.Model):
     last_name=models.CharField(max_length=100)
     father_name=models.CharField(max_length=100)
     mother_name=models.CharField(max_length=100,null=True)
-    profile=models.ImageField(upload_to='profiles/students')
+    # profile=models.ImageField(upload_to='profiles/students')
+    profile=CloudinaryField('image',folder='media/profiles/students')
     address=models.TextField(null=True)
     phone_number=models.CharField(max_length=10)
     parent_phone_number=models.CharField(max_length=10)
@@ -69,7 +71,8 @@ class FacultyModel(models.Model):
     date_of_birth=models.DateField(null=True)
     first_name=models.CharField(max_length=100)
     last_name=models.CharField(max_length=100)
-    profile=models.ImageField(upload_to='profiles/faculty',null=True)
+    # profile=models.ImageField(upload_to='profiles/faculty',null=True)
+    profile=CloudinaryField('image',folder='media/profiles/faculty',null=True,blank=True)
     phone_number=models.CharField(max_length=10)
     # email=models.EmailField()
     department=models.CharField(max_length=50)
