@@ -103,7 +103,6 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 class StudentSerializer(serializers.ModelSerializer):
-    profile = serializers.SerializerMethodField()
     class Meta:
         model = StudentModel
         fields = '__all__'
@@ -117,19 +116,10 @@ class StudentSerializer(serializers.ModelSerializer):
             if StudentModel.objects.filter(hall_ticket=upper_value).exists():
                 raise serializers.ValidationError("Student with this hall ticket already exists")
         return upper_value
-    def get_profile(self, obj):
-        if obj.profile:
-            return obj.profile.url if hasattr(obj.profile, 'url') else obj.profile
-        return None
 class FacultySerializer(serializers.ModelSerializer):
-    profile = serializers.SerializerMethodField()
     class Meta:
         model = FacultyModel
         fields ='__all__'
-    def get_profile(self, obj):
-        if obj.profile:
-            return obj.profile.url if hasattr(obj.profile, 'url') else obj.profile
-        return None
 class TimetableDisplaySerializer(serializers.ModelSerializer):
     timing=TimingSerializer()
     subject=SubjectSerializer()
