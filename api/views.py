@@ -108,8 +108,18 @@ class CreateStudentView(GenericAPIView, ListModelMixin):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
             user = user_serializer.save()
-            student_data = request.data.copy()  
+            # student_data = request.data.copy()  
+            # student_data['user'] = user.id
+            student_data = {}
+            for key, value in request.data.items():
+                if not hasattr(value, 'file'):
+                    student_data[key] = value
+            
             student_data['user'] = user.id
+
+            # Handle file uploads separately
+            if 'profile' in request.FILES:
+                student_data['profile'] = request.FILES['profile']
             serializer = StudentSerializer(data=student_data)
             if serializer.is_valid():
                 serializer.save()
@@ -161,8 +171,18 @@ class CreateFacultyView(GenericAPIView, ListModelMixin):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
             user = user_serializer.save()
-            faculty_data = request.data.copy()
+            # faculty_data = request.data.copy()
+            # faculty_data['user'] = user.id
+            faculty_data = {}
+            for key, value in request.data.items():
+                if not hasattr(value, 'file'):
+                    faculty_data[key] = value
+            
             faculty_data['user'] = user.id
+
+            # Handle file uploads separately
+            if 'profile' in request.FILES:
+                faculty_data['profile'] = request.FILES['profile']
             serializer = FacultySerializer(data=faculty_data)
             if serializer.is_valid():
                 serializer.save()
