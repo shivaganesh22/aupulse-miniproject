@@ -1,4 +1,4 @@
-django
+django==5.0
 djangorestframework
 pillow
 psycopg2-binary
