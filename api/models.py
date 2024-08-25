@@ -56,9 +56,9 @@ class StudentModel(models.Model):
     first_name=models.CharField(max_length=100)
     last_name=models.CharField(max_length=100)
     father_name=models.CharField(max_length=100)
-    mother_name=models.CharField(max_length=100,null=True)
+    mother_name=models.CharField(max_length=100,null=True,blank=True)
     profile=models.ImageField(upload_to='profiles/students')
-    address=models.TextField(null=True)
+    address=models.TextField(null=True,blank=True)
     phone_number=models.CharField(max_length=10)
     parent_phone_number=models.CharField(max_length=10)
     status=models.BooleanField(default=True)
@@ -98,7 +98,7 @@ class SubjectModel(models.Model):
         return str (self.semester)+" **** "+str(self.name)
     class Meta:
         constraints = [
-            UniqueConstraint(fields=['name', 'semester'], name='unique_branch_name_semester')
+            UniqueConstraint(fields=['name','is_lab', 'semester'], name='unique_branch_name_semester')
         ]
 # class PeriodModel(models.Model):
 #     section=models.ForeignKey(SectionModel,on_delete=models.CASCADE)
